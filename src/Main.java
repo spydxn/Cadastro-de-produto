@@ -11,7 +11,36 @@ public class Main {
         System.out.println("Quantos produtos você deseja cadastrar?");
 
         int quantidade = scanner.nextInt();  // armazenando número inteiro
-        scanner.nextLine();  //Limpeza de buffer
+        scanner.nextLine();
+
+        if(quantidade <= 0){
+            System.out.println("Quantidade inválida. O sistema será encerrado.");
+        }else{
+            for (int i = 0; i < quantidade; i++){
+                System.out.println("\n--- Cadastro do Produto" + (i + 1) + " ---");
+
+                Produto novoProduto = new Produto();
+                System.out.println("Digite seu produto: ");
+                novoProduto.produto = scanner.nextLine();
+
+                System.out.println("Digite a cor: ");
+                novoProduto.cor = scanner.nextLine();
+
+                System.out.println("Digite a quantidade: ");
+                novoProduto.qtde = scanner.nextInt();
+                scanner.nextLine();
+
+                System.out.println("Digite o preço: ");
+                novoProduto.preco = scanner.nextFloat();
+                scanner.nextLine();
+
+                listaDeProduto.add(novoProduto);
+            }
+            scanner.close();
+            System.out.println("\nSistema encerrado. Muito Obrigado!");
+        }
+
+        //Limpeza de buffer
         }
 
 public static class Produto {
