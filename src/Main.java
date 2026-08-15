@@ -49,15 +49,15 @@ public class Main {
         System.out.println("\n   LISTA DOS PRODUTOS CADASTRADOS   ");
         System.out.println("=====================================");
 
-        for (int i = 0; 1 < lista.size(); i++) {
+        for (int i = 0; i < lista.size(); i++) {
             Produto produtoAtual = lista.get(i);
             System.out.println((i + 1) + ". ");
             produtoAtual.exibirProduto();
 
             if (produtoAtual.preco >= 2000) {
-                System.out.println("     -> Status: Compra minima atingida!");
+                System.out.println("-> Status: Compra minima atingida!");
             } else {
-                System.out.println("     -> Status: Compra minima não atingida!");
+                System.out.println("-> Status: Compra minima não atingida!");
             }
         }
 
@@ -70,7 +70,7 @@ public class Main {
         float preco;
 
         public void exibirProduto() {
-            System.out.println("Produto: " + produto + "Cor: " + cor + "Quantidade: " + qtde + "Preço: " + preco);
+            System.out.println("Produto: " + produto + " | Cor: " + cor + " | Quantidade: " + qtde + " | Preço: " + preco);
 
         }
     }
