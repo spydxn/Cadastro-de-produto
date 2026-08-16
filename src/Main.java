@@ -34,6 +34,10 @@ public class Main {
                 novoProduto.preco = scanner.nextFloat();
                 scanner.nextLine();
 
+                System.out.println("Quanto de desconto o cliente terá?: ");
+                novoProduto.desconto = scanner.nextFloat();
+                scanner.nextLine();
+
                 listaDeProduto.add(novoProduto);
             }
 
@@ -68,16 +72,29 @@ public class Main {
         String cor;
         int qtde;
         float preco;
+        float desconto;
+
+        public float total(){
+            return preco * qtde;
+        }
+
+        public float totalComDesconto(){
+            float total = preco * qtde;
+            float valorDesconto = total * desconto / 100;
+
+            return total - valorDesconto;
+        }
 
         public void exibirProduto() {
-            System.out.println("Produto: " + produto + " | Cor: " + cor + " | Quantidade: " + qtde + " | Preço: " + preco);
+            System.out.println("Produto: " + produto + " | Cor: " + cor + " | Quantidade: " + qtde + " | Preço: " + preco + " | Desconto: " + desconto + "%");
+            System.out.println("Valor Total: R$ " + total());
+            System.out.println("Valor com desconto: R$ " + totalComDesconto());
 
         }
     }
 
 }
 
-//realizar calculo preço * qtde
 //se o preço passar de 2000 reais ganha frete de 30/60/90 dias
 //representante pode escolher junto com a empresa quanto de desconto o cliente pode ganhar com o pedido
 //escolha da forma de pagamento
