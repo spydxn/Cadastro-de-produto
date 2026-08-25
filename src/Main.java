@@ -4,20 +4,20 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
 
-        Scanner scanner = new Scanner(System.in); //Scannerconversa com o usuário
+        Scanner scanner = new Scanner(System.in);
         ArrayList<Produto> listaDeProduto = new ArrayList<>();
 
         System.out.println("Seja Bem-vindo!");
         System.out.println("Quantos produtos você deseja cadastrar?");
 
-        int quantidade = scanner.nextInt();  // armazenando número inteiro
+        int quantidade = scanner.nextInt();
         scanner.nextLine();
 
         if (quantidade <= 0) {
             System.out.println("Quantidade inválida. O sistema será encerrado.");
         } else {
             for (int i = 0; i < quantidade; i++) {
-                System.out.println("\n--- Cadastro do Produto" + (i + 1) + " ---");
+                System.out.println("\n--- Cadastro do Produto " + (i + 1) + " ---");
 
                 Produto novoProduto = new Produto();
                 System.out.println("Digite seu produto: ");
@@ -34,37 +34,50 @@ public class Main {
                 novoProduto.preco = scanner.nextFloat();
                 scanner.nextLine();
 
-                System.out.println("Quanto de desconto o cliente terá?: ");
-                novoProduto.desconto = scanner.nextFloat();
-                scanner.nextLine();
-
                 listaDeProduto.add(novoProduto);
             }
 
-            exibirProduto(listaDeProduto);
+            // Pergunta o desconto uma única vez no final de todos os cadastros
+            System.out.println("\nQuanto de desconto (%) o cliente terá no valor total do pedido?: ");
+            float descontoGeral = scanner.nextFloat();
+            scanner.nextLine();
+
+            exibirProduto(listaDeProduto, descontoGeral);
         }
         scanner.close();
         System.out.println("\nSistema encerrado. Muito Obrigado!");
-
     }
 
-    public static void exibirProduto(ArrayList<Produto> lista) {
+    public static void exibirProduto(ArrayList<Produto> lista, float descontoGeral) {
+        System.out.println("\n=====================================");
+        System.out.println("   LISTA DOS PRODUTOS CADASTRADOS   ");
         System.out.println("=====================================");
-        System.out.println("\n   LISTA DOS PRODUTOS CADASTRADOS   ");
-        System.out.println("=====================================");
+
+        float totalSemDesconto = 0;
 
         for (int i = 0; i < lista.size(); i++) {
             Produto produtoAtual = lista.get(i);
-            System.out.println((i + 1) + ". ");
+            System.out.print((i + 1) + ". ");
             produtoAtual.exibirProduto();
-
-            if (produtoAtual.preco >= 2000) {
-                System.out.println("-> Status: Compra minima atingida!");
-            } else {
-                System.out.println("-> Status: Compra minima não atingida!");
-            }
+            totalSemDesconto += produtoAtual.total();
         }
 
+        // Cálculo do desconto total do pedido
+        float valorDesconto = totalSemDesconto * (descontoGeral / 100);
+        float totalFinal = totalSemDesconto - valorDesconto;
+
+        System.out.println("\n=====================================");
+        System.out.println("RESUMO DO PEDIDO");
+        System.out.println("Total sem desconto: R$ " + totalSemDesconto);
+        System.out.println("Desconto aplicado: " + descontoGeral + "% (R$ " + valorDesconto + ")");
+        System.out.println("Valor final a pagar: R$ " + totalFinal);
+
+        if (totalFinal >= 2000) {
+            System.out.println("-> Status: Compra mínima atingida! (Frete 30/60/90 dias liberado)");
+        } else {
+            System.out.println("-> Status: Compra mínima não atingida!");
+        }
+        System.out.println("=====================================");
     }
 
     public static class Produto {
@@ -72,30 +85,13 @@ public class Main {
         String cor;
         int qtde;
         float preco;
-        float desconto;
 
-        public float total(){
+        public float total() {
             return preco * qtde;
         }
 
-        public float totalComDesconto(){
-            float total = preco * qtde;
-            float valorDesconto = total * desconto / 100;
-
-            return total - valorDesconto;
-        }
-
         public void exibirProduto() {
-            System.out.println("Produto: " + produto + " | Cor: " + cor + " | Quantidade: " + qtde + " | Preço: " + preco + " | Desconto: " + desconto + "%");
-            System.out.println("Valor Total: R$ " + total());
-            System.out.println("Valor com desconto: R$ " + totalComDesconto());
-
+            System.out.println("Produto: " + produto + " | Cor: " + cor + " | Quantidade: " + qtde + " | Preço Un.: R$ " + preco + " | Subtotal: R$ " + total());
         }
     }
-
 }
-
-//se o preço passar de 2000 reais ganha frete de 30/60/90 dias
-//representante pode escolher junto com a empresa quanto de desconto o cliente pode ganhar com o pedido
-//escolha da forma de pagamento
-
